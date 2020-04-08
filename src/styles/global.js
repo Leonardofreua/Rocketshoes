@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
-import background from '../assets/background.svg';
+import background from '../assets/images/background.svg';
 
 export default createGlobalStyle`
   @import url(
@@ -14,7 +14,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background: #191920 url(${background}) no-repeat center top;
+    background: #191920 url(${background}) no-repeat top;
     -webkit-font-smoothing: antialiased;
   }
 
