@@ -1,112 +1,47 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
+import { formatPrice } from '../../util/format';
+import api from '../../services/api';
 
 import { Productlist } from './styles';
 
-export default function Home() {
-  return (
-    <Productlist>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-couro-nike-court-royale-masculino/26/D12-1936-026/D12-1936-026_zoom2.jpg?ts=1585887454&ims=326x"
-          alt="Shoes"
-        />
-        <strong>Shoes</strong>
-        <span>R$ 129.90</span>
+export default class Home extends Component {
+  state = {
+    products: [],
+  };
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
+  async componentDidMount() {
+    const response = await api.get('products');
 
-          <span>Add to Cart</span>
-        </button>
-      </li>
+    const data = response.data.map((product) => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
 
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-couro-nike-court-royale-masculino/26/D12-1936-026/D12-1936-026_zoom2.jpg?ts=1585887454&ims=326x"
-          alt="Shoes"
-        />
-        <strong>Shoes</strong>
-        <span>R$ 129.90</span>
+    this.setState({ products: data });
+  }
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
+  render() {
+    const { products } = this.state;
 
-          <span>Add to Cart</span>
-        </button>
-      </li>
+    return (
+      <Productlist>
+        {products.map((product) => (
+          <li key={products.id}>
+            <img src={product.image} alt={product.title} />
+            <strong>{product.title}</strong>
+            <span>{product.priceFormatted}</span>
 
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-couro-nike-court-royale-masculino/26/D12-1936-026/D12-1936-026_zoom2.jpg?ts=1585887454&ims=326x"
-          alt="Shoes"
-        />
-        <strong>Shoes</strong>
-        <span>R$ 129.90</span>
+            <button type="button">
+              <div>
+                <MdAddShoppingCart size={16} color="#FFF" /> 3
+              </div>
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-
-          <span>Add to Cart</span>
-        </button>
-      </li>
-
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-couro-nike-court-royale-masculino/26/D12-1936-026/D12-1936-026_zoom2.jpg?ts=1585887454&ims=326x"
-          alt="Shoes"
-        />
-        <strong>Shoes</strong>
-        <span>R$ 129.90</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-
-          <span>Add to Cart</span>
-        </button>
-      </li>
-
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-couro-nike-court-royale-masculino/26/D12-1936-026/D12-1936-026_zoom2.jpg?ts=1585887454&ims=326x"
-          alt="Shoes"
-        />
-        <strong>Shoes</strong>
-        <span>R$ 129.90</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-
-          <span>Add to Cart</span>
-        </button>
-      </li>
-
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-couro-nike-court-royale-masculino/26/D12-1936-026/D12-1936-026_zoom2.jpg?ts=1585887454&ims=326x"
-          alt="Shoes"
-        />
-        <strong>Shoes</strong>
-        <span>R$ 129.90</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#FFF" /> 3
-          </div>
-
-          <span>Add to Cart</span>
-        </button>
-      </li>
-    </Productlist>
-  );
+              <span>ADD TO CART</span>
+            </button>
+          </li>
+        ))}
+      </Productlist>
+    );
+  }
 }
